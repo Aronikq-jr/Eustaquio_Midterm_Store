@@ -15,26 +15,26 @@
     <a asp-action="Index">Clear</a>
 </form> 
 
-<table class="table table-bordered">
-    <thead>
-        <tr><th>Id</th><th>Name</th><th>Description</th><th>Price</th><th>Category</th><th>Action</th></tr>
-    </thead>
-    <tbody>
-        @foreach (var p in Model)
-        {
-            <tr>
-                <td>@p.Id</td>
-                <td>@p.Name</td>
-                <td>@p.Description</td>
-                <td>@p.Price.ToString("C", new System.Globalization.CultureInfo("en-PH"))</td>
-                <td>@p.Category</td>
-                <td>
+<div class="row row-cols-1 g-3 mb-5">
+    @foreach (var p in Model)
+    {
+        <div class="col">
+            <div class="card text-center">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">@p.Name</h5>
+                </div>
+                <div class="card-body">
+                    <span class="badge bg-secondary mb-2">@p.Category</span>
+                    <p class="card-text">@p.Description</p>
                     <a asp-action="Edit" asp-route-id="@p.Id" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="AddCart" asp-route-id="@p.Id" class="btn btn-sm btn-primary">Add to Cart</a>
                     <a asp-action="Delete" asp-route-id="@p.Id" class="btn btn-sm btn-danger"
                        onclick="return confirm('Delete this product?')">Delete</a>
-                    <a asp-action="AddCart" asp-route-id="@p.Id" class="btn btn-primary btn-sm">Add to Cart</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </div>
+                <div class="card-footer text-body-secondary">
+                    @p.Price.ToString("C", new System.Globalization.CultureInfo("en-PH"))
+                </div>
+            </div>
+        </div>
+    }
+</div>
