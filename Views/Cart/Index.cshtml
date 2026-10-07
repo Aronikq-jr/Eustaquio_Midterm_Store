@@ -1,0 +1,45 @@
+@model IEnumerable<Eustaquio_Midterm_Store.Models.CartItem>
+
+@{ ViewData["Title"] = "Cart"; }
+
+
+
+<h1>Your Cart</h1>
+
+@if (!Model.Any())
+{
+    <p>Your cart is empty! Go and buy our <a asp-controller="Products" asp-action="Index">Products</a>!</p>
+}
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr><th>Product Name</th><th>Price</th><th>Quantity</th><th></th></tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.Price.ToString("C", new System.Globalization.CultureInfo("en-PH"))</td>
+                <td>
+                    <form asp-action="UpdateQuantity" method="post" class="d-flex gap-1">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <input type="number" name="quantity" value="@item.Quantity" min="1" class="form-control" style="width:90px" />
+                        <button class="btn btn-outline-primary btn-sm">Update</button>
+                    </form>
+                </td>
+                <td>
+                    <form asp-action="Remove" method="post">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <button class="btn btn-danger btn-sm">Remove</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    //THE TOTAL
+    <h4 class="text-end">Total: @Model.Sum(i => i.Price * i.Quantity).ToString("C", new System.Globalization.CultureInfo("en-PH"))</h4>
+}
